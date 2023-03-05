@@ -1,0 +1,34 @@
+= Proyecto de Catálogo de lista de Precios MS =
+
+Desarrollo de un microservicio con arquitectura limpia en una aplicación de datos Spring Boot.
+
+Esta aplicación utiliza una Base de Datos H2, que es una Base de Datos en memoria.
+
+
+== Para complilar y tener todos los recursos iniciar con el comando
+
+```
+mvn clean install
+
+```
+
+== Para iniciarlo bastará con el comando
+
+```
+mvn spring-boot:run
+
+```
+
+== Swagger de la aplicación
+
+http://localhost:9090/swagger-ui/index.html
+
+== Para probarlo se sugiere la siguiente ruta
+
+ingresar al endpoint desde cualquier cliente Soap UI, ***Postman - (https://github.com/NAO2503/spring-catalogue/blob/main/src/main/resources/Catalogue.postman_collection_V2.json)*** , etc. Para probar conexión usar Get:
+
+Get - http://localhost:9090/api/catalogue/price/1
+
+Post - http://localhost:9090/api/catalogue/price/listAllByBrandProductBetweenDate
+
+
