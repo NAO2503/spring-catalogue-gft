@@ -27,8 +27,6 @@ http://localhost:9090/swagger-ui/index.html
 
 Ingresar al endpoint desde cualquier cliente Soap UI, ***Postman - (https://github.com/NAO2503/spring-catalogue-gft/blob/main/src/main/resources/Catalogue.postman_collection_V2.json)*** , etc. Para probar conexión usar Get:
 
-Get - http://localhost:9090/api/catalogue/price/1
-
-Post - http://localhost:9090/api/catalogue/price/listAllByBrandProductBetweenDate
+Get - http://localhost:9090/api/catalogue/price/findByBrandProductBetweenDate?dateQuery=2020-06-14%2010:00:00&productId=35455&brandId=1
 
 

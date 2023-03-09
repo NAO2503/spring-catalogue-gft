@@ -21,13 +21,6 @@ public class PriceDboRepository implements PriceRepository {
     private final PriceEntityMapper priceEntityMapper;
 
     @Override
-    public Price findByPriceList(Long priceList) {
-        return priceRepository.findByPriceList(priceList)
-                .map(priceEntityMapper::toDomain)
-                .orElseGet(Price::new);
-    }
-
-    @Override
     public List<Price> findAllByBrandIdAndProductIdBetweenDates(Long brandId, Long productId, LocalDateTime dateBetween) {
         return priceRepository.findAllByBrandIdAndProductIdBetweenDates(brandId, productId, dateBetween)
                 .orElseGet(ArrayList::new)

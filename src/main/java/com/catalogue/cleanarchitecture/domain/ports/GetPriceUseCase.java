@@ -6,10 +6,6 @@ import java.util.List;
 
 public interface GetPriceUseCase {
 
-   Price getPrice(Long priceList);
-
-   List<Price> listAllByBrandProductBetweenDate(Long brandId, Long productId, String dateBetween);
-
-   Price findByBrandProductBetweenDate(Long brandId, Long productId, String dateBetween);
+   Price findByBrandProductBetweenDate(String brandId, String productId, String dateBetween);
 
 }

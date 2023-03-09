@@ -1,19 +1,16 @@
 package com.catalogue.cleanarchitecture.infrastructure.entrypoint.apicatalogue.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import lombok.*;
 
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(toBuilder = true)
 public class PriceResponseDto {
 
-    private Long priceList;
+    private Long id;
 
     private Long brandId;
 

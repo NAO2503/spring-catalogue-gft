@@ -6,8 +6,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface PriceRepository {
-
-   Price findByPriceList(Long id);
    
    List<Price> findAllByBrandIdAndProductIdBetweenDates(Long brandId, Long productId, LocalDateTime dateBetween);
 

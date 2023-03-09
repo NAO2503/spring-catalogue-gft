@@ -1,17 +1,21 @@
 package com.catalogue.cleanarchitecture.infrastructure.entrypoint.apicatalogue;
 
 import com.catalogue.cleanarchitecture.domain.ports.GetPriceUseCase;
-import com.catalogue.cleanarchitecture.infrastructure.entrypoint.apicatalogue.dto.PriceRequestDto;
 import com.catalogue.cleanarchitecture.infrastructure.entrypoint.apicatalogue.dto.PriceResponseDto;
 import com.catalogue.cleanarchitecture.infrastructure.entrypoint.apicatalogue.mapper.PriceMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 
-import javax.validation.Valid;
-import java.util.List;
+import javax.validation.constraints.NotNull;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -22,26 +26,23 @@ public class CatalogueRestController {
 
     private final PriceMapper priceMapper;
 
-    @GetMapping("/price/{priceList}")
-    public ResponseEntity<PriceResponseDto> getPriceByPriceList(@PathVariable Long priceList) {
+    @Operation(summary = "Get a Price by its brandId, productId and offer date")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the price",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PriceResponseDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid params supplied",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Price not found",
+                    content = @Content)})
+    @GetMapping("/price/findByBrandProductBetweenDate")
+    public ResponseEntity<PriceResponseDto> findByBrandProductBetweenDate(
+            @NotNull @RequestParam String brandId,
+            @NotNull @RequestParam String productId,
+            @NotNull @RequestParam String dateQuery) {
 
-        return new ResponseEntity<>(priceMapper.toResponseDto(getPriceUseCase.getPrice(priceList)), HttpStatus.OK);
-
-    }
-
-    @PostMapping("/price/findByBrandProductBetweenDate")
-    public ResponseEntity<PriceResponseDto> findByBrandProductBetweenDate(@Valid @RequestBody PriceRequestDto priceRequestDto) {
-
-        return new ResponseEntity<>(priceMapper.toResponseDto(getPriceUseCase.findByBrandProductBetweenDate(priceRequestDto.getBrandId(),
-                priceRequestDto.getProductId(), priceRequestDto.getDateQuery())), HttpStatus.OK);
-
-    }
-
-    @PostMapping("/price/listAllByBrandProductBetweenDate")
-    public ResponseEntity<List<PriceResponseDto>> listAllByBrandProductBetweenDate(@Valid @RequestBody PriceRequestDto priceRequestDto) {
-
-        return new ResponseEntity<>(priceMapper.listToResponseDtoList(getPriceUseCase.listAllByBrandProductBetweenDate(priceRequestDto.getBrandId(),
-                priceRequestDto.getProductId(), priceRequestDto.getDateQuery())), HttpStatus.OK);
-
+        PriceResponseDto response = priceMapper.toResponseDto(getPriceUseCase.findByBrandProductBetweenDate(brandId,
+                productId, dateQuery));
+        return (response != null) ? new ResponseEntity<>(response, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

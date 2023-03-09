@@ -12,11 +12,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,38 +31,6 @@ class GetPriceUseCaseTest {
     }
 
     @Test
-    void getPriceByPriceListTest() {
-        // given
-        Price price = new Price();
-        // when
-        when(priceRepository.findByPriceList(1L))
-                .thenReturn(price);
-        //then
-        Price result = getPriceUseCase.getPrice(1L);
-        Assertions.assertNotNull(result);
-    }
-
-    @Test
-    void findAllByBrandIdAndProductIdBetweenDatesTest() {
-        // given
-        String dateTest = "2020-06-14 10:00:00";
-        // when
-        when(priceRepository.findAllByBrandIdAndProductIdBetweenDates(1L, 35455L, DateUtil.getDateFromString(dateTest)))
-                .thenReturn(mockListTest1());
-        //then
-        List<Price> results = getPriceUseCase.listAllByBrandProductBetweenDate(1L, 35455L, null);
-        List<Price> results1 = getPriceUseCase.listAllByBrandProductBetweenDate(1L, 35455L, "Mal formato");
-        List<Price> results2 = getPriceUseCase.listAllByBrandProductBetweenDate(1L, 35455L, dateTest);
-        Price price = results2.get(0);
-        Assertions.assertNotNull(results);
-        Assertions.assertEquals(0, results1.size());
-        Assertions.assertNotNull(results2);
-        Assertions.assertEquals(1L, price.getBrandId());
-        Assertions.assertEquals(35455L, price.getProductId());
-        Assertions.assertEquals(35.5, price.getPrice());
-    }
-
-    @Test
     void findByBrandProductBetweenDateTest1() {
         // given
         String dateTest = "2020-06-14 10:00:00";
@@ -74,11 +40,11 @@ class GetPriceUseCaseTest {
                 .thenReturn(mockListTest1());
 
         //then
-        Price result = getPriceUseCase.findByBrandProductBetweenDate(1L, 35455L, dateTest);
-        Price result2 = getPriceUseCase.findByBrandProductBetweenDate(1L, 35455L, "Mal formato");
-        Assertions.assertEquals(1L, result.getBrandId());
-        Assertions.assertEquals(35455L, result.getProductId());
-        Assertions.assertEquals(35.5, result.getPrice());
+        Price result = getPriceUseCase.findByBrandProductBetweenDate("1", "35455", dateTest);
+        Price result2 = getPriceUseCase.findByBrandProductBetweenDate("1", "35455", "Mal formato");
+        Assertions.assertEquals(Long.valueOf("1"), result.getBrandId());
+        Assertions.assertEquals(Long.valueOf("35455"), result.getProductId());
+        Assertions.assertEquals(Double.valueOf("35.5"), result.getPrice());
         Assertions.assertNull(result2);
     }
 
@@ -92,10 +58,10 @@ class GetPriceUseCaseTest {
                 .thenReturn(mockListTest2());
 
         //then
-        Price result = getPriceUseCase.findByBrandProductBetweenDate(1L, 35455L, dateTest);
-        Assertions.assertEquals(1L, result.getBrandId());
-        Assertions.assertEquals(35455L, result.getProductId());
-        Assertions.assertEquals(25.45, result.getPrice());
+        Price result = getPriceUseCase.findByBrandProductBetweenDate("1", "35455", dateTest);
+        Assertions.assertEquals(Long.valueOf("1"), result.getBrandId());
+        Assertions.assertEquals(Long.valueOf("35455"), result.getProductId());
+        Assertions.assertEquals(Double.valueOf("25.45"), result.getPrice());
     }
 
     @Test
@@ -108,10 +74,10 @@ class GetPriceUseCaseTest {
                 .thenReturn(mockListTest3());
 
         //then
-        Price result = getPriceUseCase.findByBrandProductBetweenDate(1L, 35455L, dateTest);
-        Assertions.assertEquals(1L, result.getBrandId());
-        Assertions.assertEquals(35455L, result.getProductId());
-        Assertions.assertEquals(35.5, result.getPrice());
+        Price result = getPriceUseCase.findByBrandProductBetweenDate("1", "35455", dateTest);
+        Assertions.assertEquals(Long.valueOf("1"), result.getBrandId());
+        Assertions.assertEquals(Long.valueOf("35455"), result.getProductId());
+        Assertions.assertEquals(Double.valueOf("35.5"), result.getPrice());
     }
 
     @Test
@@ -124,10 +90,10 @@ class GetPriceUseCaseTest {
                 .thenReturn(mockListTest4());
 
         //then
-        Price result = getPriceUseCase.findByBrandProductBetweenDate(1L, 3595L, dateTest);
-        Assertions.assertEquals(1L, result.getBrandId());
-        Assertions.assertEquals(35455L, result.getProductId());
-        Assertions.assertEquals(30.5, result.getPrice());
+        Price result = getPriceUseCase.findByBrandProductBetweenDate("1", "3595", dateTest);
+        Assertions.assertEquals(Long.valueOf("1"), result.getBrandId());
+        Assertions.assertEquals(Long.valueOf("35455"), result.getProductId());
+        Assertions.assertEquals(Double.valueOf("30.5"), result.getPrice());
     }
 
     @Test
@@ -140,10 +106,10 @@ class GetPriceUseCaseTest {
                 .thenReturn(mockListTest5());
 
         //then
-        Price result = getPriceUseCase.findByBrandProductBetweenDate(1L, 3595L, dateTest);
-        Assertions.assertEquals(1L, result.getBrandId());
-        Assertions.assertEquals(35455L, result.getProductId());
-        Assertions.assertEquals(38.95, result.getPrice());
+        Price result = getPriceUseCase.findByBrandProductBetweenDate("1", "3595", dateTest);
+        Assertions.assertEquals(Long.valueOf("1"), result.getBrandId());
+        Assertions.assertEquals(Long.valueOf("35455"), result.getProductId());
+        Assertions.assertEquals(Double.valueOf("38.95"), result.getPrice());
     }
 
     private List<Price> mockListTest1() {

@@ -18,22 +18,8 @@ public class GetPriceService implements GetPriceUseCase {
     private final PriceRepository priceRepository;
 
     @Override
-    public Price getPrice(Long priceList) {
-        return priceRepository.findByPriceList(priceList);
-    }
-
-    @Override
-    public List<Price> listAllByBrandProductBetweenDate(Long brandId, Long productId, String dateBetween) {
-        LocalDateTime dateToDateObj = DateUtil.getDateFromString(dateBetween);
-        if (dateToDateObj == null) {
-            return new ArrayList<>();
-        }
-        return priceRepository.findAllByBrandIdAndProductIdBetweenDates(brandId, productId, dateToDateObj);
-    }
-
-    @Override
-    public Price findByBrandProductBetweenDate(Long brandId, Long productId, String dateBetween) {
-        List<Price> prices = listAllByBrandProductBetweenDate(brandId, productId, dateBetween);
+    public Price findByBrandProductBetweenDate(String brandId, String productId, String dateBetween) {
+        List<Price> prices = listAllByBrandProductBetweenDate(Long.parseLong(brandId), Long.parseLong(productId), dateBetween);
         if (prices.isEmpty()) {
             return null;
         }
@@ -46,6 +32,14 @@ public class GetPriceService implements GetPriceUseCase {
             return prices.get(0);
         }
         return prices.get(0);
+    }
+
+    private List<Price> listAllByBrandProductBetweenDate(Long brandId, Long productId, String dateBetween) {
+        LocalDateTime dateToDateObj = DateUtil.getDateFromString(dateBetween);
+        if (dateToDateObj == null) {
+            return new ArrayList<>();
+        }
+        return priceRepository.findAllByBrandIdAndProductIdBetweenDates(brandId, productId, dateToDateObj);
     }
 
     private List<Price> filterSimilarElementsByPriority(List<Price> prices) {
